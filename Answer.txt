@@ -1,0 +1,15 @@
+Query:
+select datepart(QUARTER, c.starttime),c.agent_id, CAST(c.disposition as varchar(100)),
+	 COUNT(distinct cast(c.call_key as varchar(200))),
+	COUNT(cast(c.call_key as varchar(200))) 
+from calls c
+	inner join keywords k on cast(c.call_key as varchar(200)) = cast(k.call_key as varchar(200))
+where c.starttime between '2019-01-01' and '2020-01-01'
+	and k.keyword like '%demo%'
+group by datepart(QUARTER, c.starttime),c.agent_id,CAST(c.disposition as varchar(100))
+order by agent_id,datepart(QUARTER, c.starttime)
+
+
+1. from this data found that demo keyword has been used mostly in first call or in Demo call.
+2. disposition is specified that call is for what set up.
+3. if have time then will analyse data based on incoming and outgoing calls and how responsive are customers in those calls based on keyword.
